@@ -41,12 +41,39 @@
 
         </div>
         <div id="maincontent">
-            <div id="title">
-                All Tasks
+            <div class="subheader">
+                <div class="top">
+                    <div id="title">
+                        All Tasks
+                    </div>
+                    <button id="addTask">&#8330; New Task</button>
+                </div>
+                <div class="form-popup" id="myForm">
+                    <form class="form-container">
+                        <div class="flexform">
+                            <label for="desc"><b>Description</b></label>
+                            <input type="text" id="desc" placeholder="Your task here..." name="desc" required>
+                        </div>
+                        <div class="flexform">
+                            <label for="date"><b>Date</b></label>
+                            <input type="text" id="date" placeholder="Jan 1st" name="date">
+                        </div>
+                        <div class="checkboxes">
+
+                            <input type="checkbox" id="done" name="done" value="false">
+                            <label for="read">Already done?</label>
+
+                            <input type="checkbox" id="starred" name="starred" value="false">
+                            <label for="starred">Important?</label>
+
+                        </div>
+                        <div class="flexform">
+                            <button type="button" class="btn" id="submit">Add Task</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="taskList">
-                prova
-            </div>
+            <div class="taskList"></div>
         </div>
     </div>
 </body>

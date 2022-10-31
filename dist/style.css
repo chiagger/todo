@@ -1,10 +1,23 @@
+html {
+    height: 100%;
+    overflow-y: hidden;
+    
+}
+
+#content {
+    height: 100%;
+    width: 100%;
+}
+
 body {
     height: 100%;
     width: 100%;
     background-color: #eef2ff;
+    margin:0;
 }
 
 #header {
+    grid-column: 1 / span 2;
     padding: 1.5rem;
     display: flex;
     justify-content: space-between;
@@ -22,14 +35,74 @@ body {
     color: #6366f1;
 }
 
-#maincontent {
-    padding: 2rem;
-    padding-left: 4rem;
+.taskList {
     display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+#maincontent {
+    height: 100%;
+    padding: 4rem;
+    display: flex;
+    flex-wrap: nowrap;
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
+    background-color: #e0e7ff;
+    transition: 0.5s;
+
 }
+
+.task {
+    min-width: fit-content;
+    padding: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    background-color: #c7d2fe;
+    border-radius: 7px;
+    color: #3730a3;
+}
+
+.task-left {
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+}
+
+.task-right {
+    font-size: 1.8em;
+    flex-wrap: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.task-right .date {
+    font-size: 13px;
+}
+
+input[type='checkbox'] {
+    width: 20px;
+    height: 20px;
+    background: #eef2ff;
+    border-radius: 30px;
+    border: 2px solid #6366f1;
+}
+
+.task-left>input:checked {
+    accent-color: #6366f1;
+}
+
+.task-left>input:hover {
+    accent-color: #4f46e5;
+}
+
 
 #maincontent #title {
     font-size: 2em;
@@ -49,7 +122,6 @@ body {
     /* Disable horizontal scroll */
     padding-top: 90px;
     transition: 0.5s;
-    /* 0.5 second transition effect to slide in the sidebar */
 }
 
 /* The sidebar links */
@@ -83,9 +155,6 @@ body {
     background: none;
     border: none;
     border-radius: 15px;
-
-    /*border: 1px solid #c7d2fe;
-    box-shadow: 1px 1px 5px #4f46e5;*/
 }
 
 .proj {
@@ -99,7 +168,6 @@ body {
 
 .sidebar #addProjectBtn:active {
     box-shadow: 3px 3px 8px #4f46e5;
-
 }
 
 .sidebar a:hover {
@@ -114,13 +182,35 @@ body {
     color: #3730a3;
 }
 
-/* Position and style the close button (top right corner) */
 .sidebar .closebtn {
     position: absolute;
-    top: 0;
-    right: 25px;
+    top: 25px;
+    right: 30px;
     font-size: 36px;
-    margin-left: 50px;
+}
+
+.subheader {
+    display:flex;
+    align-items: flex-start;
+    gap: 3rem;
+}
+
+.subheader button {
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: none;
+    background-color: #E0E7FF;
+    color: #818cf8;
+    font-size: 1em;
+}
+
+.subheader button:hover {
+    color: #4338ca;
+}
+
+.subheader button:active {
+    color: #2c2489;
+    font-size: 1.1em;
 }
 
 .openbtn {
@@ -147,8 +237,71 @@ body {
     .sidebar {
         padding-top: 15px;
     }
-
     .sidebar a {
         font-size: 18px;
     }
 }
+
+.flexform {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.checkboxes {
+    margin-top: 1rem;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+    display: none;
+}
+  
+/* Add styles to the form container */
+.form-container {
+    background-color: #E0E7FF;
+    max-width: 600px;
+    border-radius: 10px;
+    display: flex;
+    gap: 2rem;
+}
+  
+/* Full-width input fields */
+.form-container input[type=text] {
+    border-radius: 10px;
+    width: 90%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #eef2ff;
+}
+
+.form-container input[type=checkbox] {
+    padding: 15px;
+}
+  
+  /* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+    background-color:#eef2ff;
+    outline: none;
+}
+  
+  /* Set a style for the submit/login button */
+  .form-container .btn {
+    margin-top:20px;
+    border-radius: 10px;
+    background-color: #6366f1;
+    color: #eef2ff;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: max-content;
+    margin-bottom:10px;
+    opacity: 0.8;
+  }
+  
+  /* Add some hover effects to buttons */
+  .form-container .btn:hover, .open-button:hover {
+    opacity: 1;
+  }
