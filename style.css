@@ -14,12 +14,26 @@ body {
 
 #logo {
     display: flex;
-    color:#a5b4fc;
+    color: #a5b4fc;
     font-size: 2em;
 }
 
 #logo #indigo {
-    color:#6366f1;
+    color: #6366f1;
+}
+
+#maincontent {
+    padding: 2rem;
+    padding-left: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+#maincontent #title {
+    font-size: 2em;
+    color: #6366f1;
 }
 
 .sidebar {
@@ -30,7 +44,7 @@ body {
     /* Stay on top */
     top: 0;
     left: 0;
-    background-color: #6366f1;
+    background-color: #818cf8;
     overflow-x: hidden;
     /* Disable horizontal scroll */
     padding-top: 90px;
@@ -42,15 +56,62 @@ body {
 .sidebar a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
+    font-size: 0.9em;
+    color: #eef2ff;
+    display: block;
+    transition: 0.1s;
+}
+
+.sidebar .section {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
     font-size: 1.5em;
-    color: #e0e7ff;
+    color: #3730a3;
     display: block;
     transition: 0.3s;
 }
 
-/* When you mouse over the navigation links, change their color */
+.sidebar #addProjectBtn {
+    margin-left: 12px;
+    padding: 4px 8px 4px 8px;
+    text-decoration: none;
+    font-size: 0.6em;
+    color: #eef2ff;
+    display: block;
+    transition: 0.1s;
+    width: fit-content;
+    background: none;
+    border: none;
+    border-radius: 15px;
+
+    /*border: 1px solid #c7d2fe;
+    box-shadow: 1px 1px 5px #4f46e5;*/
+}
+
+.proj {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar #addProjectBtn:hover {
+    box-shadow: 1px 1px 8px #4f46e5;
+}
+
+.sidebar #addProjectBtn:active {
+    box-shadow: 3px 3px 8px #4f46e5;
+
+}
+
 .sidebar a:hover {
-    color: #f1f1f1;
+    color: #a5b4fc;
+}
+
+.sidebar a:active {
+    color: #6366f1;
+}
+
+.sidebar .section:hover {
+    color: #3730a3;
 }
 
 /* Position and style the close button (top right corner) */
@@ -62,7 +123,6 @@ body {
     margin-left: 50px;
 }
 
-/* The button used to open the sidebar */
 .openbtn {
     font-size: 20px;
     cursor: pointer;
@@ -76,7 +136,6 @@ body {
     background-color: #444;
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
     transition: margin-left .5s;
     /* If you want a transition effect */
