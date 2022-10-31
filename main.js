@@ -15,7 +15,7 @@
   \**********************/
 /***/ (() => {
 
-eval("console.log(\"try\");\n\n//# sourceURL=webpack://todo/./src/index.js?");
+eval("console.log(\"try\");\n\nconst openBtn = document.querySelector(\".openbtn\");\nconst closeBtn = document.querySelector(\".closebtn\");\nconst maincontent = document.querySelector(\"#maincontent\");\n\n/* Set the width of the sidebar to 250px and the left margin of the page content to 250px */\nfunction openNav() {\n    document.getElementById(\"mySidebar\").style.width = \"250px\";\n    const main = document.getElementById(\"main\");\n    main.style.marginLeft = \"250px\";\n    main.removeChild(openBtn);\n    maincontent.style.marginLeft=\"250px\";\n    \n  }\n  \n  /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */\n  function closeNav() {\n    document.getElementById(\"mySidebar\").style.width = \"0\";\n    const main = document.getElementById(\"main\");\n    main.style.marginLeft = \"0px\";\n    maincontent.style.marginLeft=\"0px\";\n    main.appendChild(openBtn);\n  }\n  \n  openBtn.addEventListener(\"click\", openNav);\n  closeBtn.addEventListener(\"click\", closeNav);\n\n//# sourceURL=webpack://todo/./src/index.js?");
 
 /***/ })
 
