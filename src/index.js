@@ -9,7 +9,6 @@ const doneField = document.querySelector("#done");
 const starredField = document.querySelector("#starred");
 const submitBtn = document.querySelector("#submit");
 
-
 function openNav() {
     document.getElementById("mySidebar").style.width = "250px";
     const main = document.getElementById("main");
@@ -53,6 +52,8 @@ let task = class {
     }
 }
 
+
+
 function makeTask(task) {
     const taskCard = document.createElement("div");
     taskCard.classList.add("task");
@@ -76,17 +77,30 @@ function makeTask(task) {
     const edit = document.createElement("div");
     edit.classList.add("edit");
     edit.innerHTML = "&#10000;";
-    const remove = document.createElement("div");
-    remove.classList.add = "remove";
-    remove.innerHTML = "&#215;";
+    const removeBtn = document.createElement("button");
+    removeBtn.style.backgroundColor = "#C7D2FE";
+    removeBtn.style.outline = "none";
+    removeBtn.style.border = "none";
+    removeBtn.style.fontSize = "1em";
+    removeBtn.style.color = "#403FB9";
+    removeBtn.innerHTML = "&#215;";
     taskRight.appendChild(date);
     taskRight.appendChild(edit);
-    taskRight.appendChild(remove);
+    taskRight.appendChild(removeBtn);
 
     taskCard.appendChild(taskLeft);
     taskCard.appendChild(taskRight);
 
     taskContainer.appendChild(taskCard);
+    removeBtn.addEventListener("click",function handle(e) { 
+        taskContainer.removeChild(e.target.parentNode.parentNode); 
+        console.log(taskArray);
+        let taskIndex = taskArray.indexOf(task);
+        if (taskIndex > -1) { 
+            taskArray.splice(taskIndex, 1);
+          }
+        console.log(taskArray);
+    });
 }
 
 function promptTask() {
@@ -100,6 +114,11 @@ function promptTask() {
     closeForm();
 }
 
+function removeTask(e) {
+    console.log(e.target);
+    taskContainer.removeChild(e.target);
+}
+
 function openForm() {
     document.getElementById("myForm").style.display = "block";
 }
@@ -110,3 +129,4 @@ function closeForm() {
 
 newTaskBtn.addEventListener("click", openForm);
 submitBtn.addEventListener("click", promptTask);
+

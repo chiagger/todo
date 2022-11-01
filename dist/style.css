@@ -1,7 +1,7 @@
 html {
     height: 100%;
     overflow-y: hidden;
-    
+
 }
 
 #content {
@@ -13,7 +13,7 @@ body {
     height: 100%;
     width: 100%;
     background-color: #eef2ff;
-    margin:0;
+    margin: 0;
 }
 
 #header {
@@ -190,7 +190,7 @@ input[type='checkbox'] {
 }
 
 .subheader {
-    display:flex;
+    display: flex;
     align-items: flex-start;
     gap: 3rem;
 }
@@ -237,6 +237,7 @@ input[type='checkbox'] {
     .sidebar {
         padding-top: 15px;
     }
+
     .sidebar a {
         font-size: 18px;
     }
@@ -247,17 +248,19 @@ input[type='checkbox'] {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    color: #3730a3;
 }
 
 .checkboxes {
     margin-top: 1rem;
+    color: #3730a3;
 }
 
 /* The popup form - hidden by default */
 .form-popup {
     display: none;
 }
-  
+
 /* Add styles to the form container */
 .form-container {
     background-color: #E0E7FF;
@@ -266,7 +269,7 @@ input[type='checkbox'] {
     display: flex;
     gap: 2rem;
 }
-  
+
 /* Full-width input fields */
 .form-container input[type=text] {
     border-radius: 10px;
@@ -280,16 +283,17 @@ input[type='checkbox'] {
 .form-container input[type=checkbox] {
     padding: 15px;
 }
-  
-  /* When the inputs get focus, do something */
-.form-container input[type=text]:focus, .form-container input[type=password]:focus {
-    background-color:#eef2ff;
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus,
+.form-container input[type=password]:focus {
+    background-color: #eef2ff;
     outline: none;
 }
-  
-  /* Set a style for the submit/login button */
-  .form-container .btn {
-    margin-top:20px;
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+    margin-top: 20px;
     border-radius: 10px;
     background-color: #6366f1;
     color: #eef2ff;
@@ -297,11 +301,16 @@ input[type='checkbox'] {
     border: none;
     cursor: pointer;
     width: max-content;
-    margin-bottom:10px;
+    margin-bottom: 10px;
     opacity: 0.8;
-  }
-  
-  /* Add some hover effects to buttons */
-  .form-container .btn:hover, .open-button:hover {
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover,
+.open-button:hover {
     opacity: 1;
-  }
+}
+
+.task-right :last-child {
+    color: white;
+}
