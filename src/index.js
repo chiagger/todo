@@ -3,6 +3,9 @@ const openBtn = document.querySelector(".openbtn");
 const closeBtn = document.querySelector(".closebtn");
 const newTaskBtn = document.querySelector("#addTask");
 const submitBtn = document.querySelector("#button");
+const allTasks = document.querySelector("#alltasks");
+const today = document.querySelector("#today");
+
 
 //sidebar
 const sidebar = require('./sidebar.js');
@@ -19,3 +22,6 @@ submitBtn.addEventListener("click", () => {
     form.closeForm()
 });
 
+//sidebar
+allTasks.addEventListener("click", task.displayAllTab);
+today.addEventListener("click", task.displayTodayTab);

@@ -17,9 +17,11 @@ let task = class {
     getStarred() {
         return this.starred;
     }
-
     setStarred(value) {
         this.starred = value;
+    }
+    setDone(value) {
+        this.done = value;
     }
 }
 
@@ -27,8 +29,8 @@ const descField = document.querySelector("#desc");
 const dateField = document.querySelector("#date");
 const doneField = document.querySelector("#done");
 const starredField = document.querySelector("#starred");
-const maincontent = document.querySelector("#maincontent");
 const taskContainer = document.querySelector(".taskList");
+const title = document.querySelector("#title");
 
 let taskArray = [];
 
@@ -47,7 +49,12 @@ function makeTask(task) {
     } else { checkbox.checked = false; }
     const desc = document.createElement("div");
     desc.classList.add("desc");
-    desc.textContent = task.getDesc();
+    if (task.getDone() === true) {
+        desc.innerHTML = task.getDesc().strike();
+        desc.style.color = "#818cf8";
+    } else {
+        desc.textContent = task.getDesc();
+    }
     taskLeft.appendChild(checkbox);
     taskLeft.appendChild(desc);
     const taskRight = document.createElement("div");
@@ -66,10 +73,6 @@ function makeTask(task) {
     } else {
         starred.innerHTML = "&#9734;";
     }
-
-    const edit = document.createElement("div");
-    edit.classList.add("edit");
-    edit.innerHTML = "&#10000;";
     const removeBtn = document.createElement("button");
     removeBtn.style.backgroundColor = "#C7D2FE";
     removeBtn.style.outline = "none";
@@ -79,7 +82,6 @@ function makeTask(task) {
     removeBtn.innerHTML = "&#215;";
     taskRight.appendChild(date);
     taskRight.appendChild(starred);
-    taskRight.appendChild(edit);
     taskRight.appendChild(removeBtn);
     taskCard.appendChild(taskLeft);
     taskCard.appendChild(taskRight);
@@ -97,6 +99,21 @@ function makeTask(task) {
         }
     });
 
+    //deal with doneBtn
+    checkbox.addEventListener("click", function handleDone(e) {
+        if (task.getDone() === true) {
+            desc.textContent = task.getDesc();
+            desc.style.color = "#4435B6";
+            checkbox.checked = false;
+            task.setDone(false);
+        } else {
+            desc.innerHTML = task.getDesc().strike();
+            desc.style.color = "#818cf8";
+            checkbox.checked = true;
+            task.setDone(true);
+        }
+    });
+
     //deal with removeBtn
     removeBtn.addEventListener("click", function handleRemove(e) {
         taskContainer.removeChild(e.target.parentNode.parentNode);
@@ -105,8 +122,6 @@ function makeTask(task) {
             taskArray.splice(taskIndex, 1);
         }
     });
-
-    //deal with editBtn
 }
 
 //create js task
@@ -125,6 +140,48 @@ function promptTask() {
     doneField.checked = false;
 }
 
+function displayAllTab() {
+    //remove all tasks
+    while (taskContainer.hasChildNodes()) {
+        taskContainer.removeChild(taskContainer.firstChild);
+    }
+    //set title
+    title.innerHTML = "All Tasks";
+    //add all [filtered] tasks
+    taskArray.forEach(task => { makeTask(task) });
+}
 
+function toFormattedString(someDate) {
+    let result = "";
+    result += someDate.getFullYear();
+    result += "-";
+    let month = someDate.getMonth()+1;
+    if (month.length === 1) {
+        month = "0"+month;
+    }
+    result += month
+    result += "-";
+    let date = someDate.getDate();
+    if (date.toString().length === 1) {
+        date = "0"+date;
+    }
+    result += date;
+    return result;
+}
 
-module.exports = { promptTask }
+function displayTodayTab() {
+    //remove all tasks
+    while (taskContainer.hasChildNodes()) {
+        taskContainer.removeChild(taskContainer.firstChild);
+    }
+    //set title
+    title.innerHTML = "Today";
+    //add all [filtered] tasks
+    const today = new Date();
+    taskArray.forEach(task => {
+        if (task.getDate() === toFormattedString(today))
+            makeTask(task);
+    });
+}
+
+module.exports = { promptTask, displayAllTab, displayTodayTab }
