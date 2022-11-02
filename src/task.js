@@ -1,9 +1,13 @@
 let task = class {
-    constructor(desc, date, done, starred) {
+    constructor(desc, date, done, starred, project) {
         this.done = done;
         this.desc = desc;
         this.date = date;
         this.starred = starred;
+        this.project = project;
+    }
+    getProject() {
+        return this.project;
     }
     getDone() {
         return this.done;
@@ -29,8 +33,10 @@ const descField = document.querySelector("#desc");
 const dateField = document.querySelector("#date");
 const doneField = document.querySelector("#done");
 const starredField = document.querySelector("#starred");
+const projField = document.querySelector("#proj");
 const taskContainer = document.querySelector(".taskList");
 const title = document.querySelector("#title");
+const projContainer = document.querySelector(".proj");
 
 let taskArray = [];
 
@@ -47,6 +53,8 @@ function makeTask(task) {
     if (task.getDone() === true) {
         checkbox.checked = true;
     } else { checkbox.checked = false; }
+    const descContainer = document.createElement("div");
+    descContainer.classList.add("descContainer");
     const desc = document.createElement("div");
     desc.classList.add("desc");
     if (task.getDone() === true) {
@@ -55,8 +63,13 @@ function makeTask(task) {
     } else {
         desc.textContent = task.getDesc();
     }
+    const projName = document.createElement("div");
+    projName.classList.add("projName");
+    projName.textContent = task.getProject();
+    descContainer.appendChild(desc);
+    descContainer.appendChild(projName);
     taskLeft.appendChild(checkbox);
-    taskLeft.appendChild(desc);
+    taskLeft.appendChild(descContainer);
     const taskRight = document.createElement("div");
     taskRight.classList.add("task-right");
     const date = document.createElement("div");
@@ -130,10 +143,39 @@ function promptTask() {
     let date = dateField.value;
     let starred = starredField.checked;
     let done = doneField.checked;
-    let thistask = new task(desc, date, done, starred);
-    taskArray.push(thistask);
-    makeTask(thistask);
+    let proj = projField.value;
+    if (projField.value.length === 0) {
+        proj = "default";
+    }
+    //form validation!!!
+    let found = false;
+    const projList = document.querySelectorAll(".oneproject");
+    console.log(projList);
+
+    if (proj != "default") {
+        projList.forEach(thisproj => {
+            if (thisproj.textContent === proj) {
+                found = true;
+            }
+        })
+        if (found) {
+            proj = projField.value;
+            let thistask = new task(desc, date, done, starred, proj);
+            taskArray.push(thistask);
+            makeTask(thistask);
+        } else {
+            alert("Insert existing project");
+        }
+    } else {
+        let thistask = new task(desc, date, done, starred, proj);
+        taskArray.push(thistask);
+        makeTask(thistask);
+    }
+    
+
+
     //this resets the form after submission
+    projField.value = '';
     descField.value = '';
     dateField.value = '';
     starredField.checked = false;
@@ -228,4 +270,26 @@ function displayStarredTab() {
     });
 }
 
-module.exports = { promptTask, displayAllTab, displayTodayTab, displayWeekTab, displayStarredTab }
+function displayProjectTab(e) {
+    while (taskContainer.hasChildNodes()) {
+        taskContainer.removeChild(taskContainer.firstChild);
+    }
+    title.innerHTML = e.target.textContent;
+
+    taskArray.forEach(task => {
+        if (task.getProject() === e.target.textContent) {
+            makeTask(task);
+        }
+    });
+}
+
+function createProject() {
+    const proj = document.createElement("a");
+    const name = prompt("Project name?");
+    proj.textContent = name;
+    proj.classList.add("oneproject");
+    projContainer.appendChild(proj);
+    proj.addEventListener("click", displayProjectTab);
+}
+
+module.exports = { promptTask, displayAllTab, displayTodayTab, displayWeekTab, displayStarredTab, createProject }
