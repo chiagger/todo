@@ -220,10 +220,11 @@ input[type='checkbox'] {
     color: #4338ca;
     padding: 10px 15px;
     border: none;
+    border-radius: 30px;
 }
 
 .openbtn:hover {
-    background-color: #444;
+    background-color: #b2b9f6;
 }
 
 #main {
