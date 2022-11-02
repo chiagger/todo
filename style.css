@@ -159,7 +159,7 @@ input[type='checkbox'] {
 
 .proj {
     display: flex;
-    align-items: center;
+    flex-direction: column;
 }
 
 .sidebar #addProjectBtn:hover {
@@ -264,7 +264,7 @@ input[type='checkbox'] {
 /* Add styles to the form container */
 .form-container {
     background-color: #E0E7FF;
-    max-width: 600px;
+    max-width: 800px;
     border-radius: 10px;
     display: flex;
     gap: 2rem;
@@ -282,6 +282,16 @@ input[type='checkbox'] {
 
 .form-container input[type=checkbox] {
     padding: 15px;
+}
+
+.descContainer {
+    display:flex;
+    flex-direction: column;
+    
+}
+
+.projName {
+    font-size: 12px;
 }
 
 .form-container input[type=date] {
