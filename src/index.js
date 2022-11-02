@@ -5,6 +5,8 @@ const newTaskBtn = document.querySelector("#addTask");
 const submitBtn = document.querySelector("#button");
 const allTasks = document.querySelector("#alltasks");
 const today = document.querySelector("#today");
+const thisweek = document.querySelector("#thisweek");
+const important = document.querySelector("#important");
 
 
 //sidebar
@@ -25,3 +27,5 @@ submitBtn.addEventListener("click", () => {
 //sidebar
 allTasks.addEventListener("click", task.displayAllTab);
 today.addEventListener("click", task.displayTodayTab);
+thisweek.addEventListener("click", task.displayWeekTab);
+important.addEventListener("click", task.displayStarredTab);

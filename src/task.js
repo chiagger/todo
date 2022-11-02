@@ -155,15 +155,15 @@ function toFormattedString(someDate) {
     let result = "";
     result += someDate.getFullYear();
     result += "-";
-    let month = someDate.getMonth()+1;
+    let month = someDate.getMonth() + 1;
     if (month.length === 1) {
-        month = "0"+month;
+        month = "0" + month;
     }
     result += month
     result += "-";
     let date = someDate.getDate();
     if (date.toString().length === 1) {
-        date = "0"+date;
+        date = "0" + date;
     }
     result += date;
     return result;
@@ -184,4 +184,48 @@ function displayTodayTab() {
     });
 }
 
-module.exports = { promptTask, displayAllTab, displayTodayTab }
+//checks if someDate <= today + 7days
+function nextSevenDays(someDate) {
+    const today = new Date();
+    const todayString = toFormattedString(today);
+
+    let todayFormatted = new Date(todayString);
+    let nextSevenDays = new Date(todayString);
+    let dateFormatted = new Date(someDate);
+    nextSevenDays.setDate(nextSevenDays.getDate() + 7)
+
+    if (dateFormatted <= nextSevenDays
+        && dateFormatted >= todayFormatted) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function displayWeekTab() {
+    while (taskContainer.hasChildNodes()) {
+        taskContainer.removeChild(taskContainer.firstChild);
+    }
+    title.innerHTML = "This Week";
+
+    taskArray.forEach(task => {
+        if (nextSevenDays(task.getDate())) {
+            makeTask(task);
+        }
+    });
+}
+
+function displayStarredTab() {
+    while (taskContainer.hasChildNodes()) {
+        taskContainer.removeChild(taskContainer.firstChild);
+    }
+    title.innerHTML = "Starred Tasks";
+
+    taskArray.forEach(task => {
+        if (task.getStarred()) {
+            makeTask(task);
+        }
+    });
+}
+
+module.exports = { promptTask, displayAllTab, displayTodayTab, displayWeekTab, displayStarredTab }
