@@ -130,65 +130,69 @@ function makeTask(task) {
     starred.addEventListener("click", function handleStar(e) {
         let index;
         for (let i = 0; i < taskArray.length; i++) {
-            if (taskArray[i].desc === task.getDesc()
-                && taskArray[i].date === task.getDate()
-                && taskArray[i].project === task.getProject()) {
+            if (taskArray[i].desc === task.desc
+                && taskArray[i].date === task.date
+                && taskArray[i].project === task.project) {
                 index = i;
             }
         }
-        if (task.getStarred() === true) {
+        if (task.starred === true) {
             starred.innerHTML = "&#9734;";
-            task.setStarred(false);
+            task.starred = false;
             taskArray[index].starred = false;           //modify task array
         } else {
             starred.innerHTML = "&#9733;";
-            task.setStarred(true);
+            task.starred = false;
             taskArray[index].starred = true;
         }
         storeMyTasks();
+        storeMyProjects();
     });
 
     //deal with doneBtn
     checkbox.addEventListener("click", function handleDone(e) {
         let index;
         for (let i = 0; i < taskArray.length; i++) {
-            if (taskArray[i].desc === task.getDesc()
-                && taskArray[i].date === task.getDate()
-                && taskArray[i].project === task.getProject()) {
+            if (taskArray[i].desc === task.desc
+                && taskArray[i].date === task.date
+                && taskArray[i].project === task.project) {
                 index = i;
             }
         }
-        if (task.getDone() === true) {
-            desc.textContent = task.getDesc();
+        if (task.done === true) {
+            desc.textContent = task.desc;
             desc.style.color = "#4435B6";
             checkbox.checked = false;
-            task.setDone(false);
+            task.done = false;
             taskArray[index].done = false;           //modify task array
 
         } else {
-            desc.innerHTML = task.getDesc().strike();
+            desc.innerHTML = task.desc.strike();
             desc.style.color = "#818cf8";
             checkbox.checked = true;
-            task.setDone(true);
+            task.done = true;
             taskArray[index].done = true;           //modify task array
 
         }
         storeMyTasks();
+        storeMyProjects();
     });
 
     //deal with removeBtn
     removeBtn.addEventListener("click", function handleRemove(e) {
         let index;
         for (let i = 0; i < taskArray.length; i++) {
-            if (taskArray[i].desc === task.getDesc()
-                && taskArray[i].date === task.getDate()
-                && taskArray[i].project === task.getProject()) {
+            if (taskArray[i].desc === task.desc
+                && taskArray[i].date === task.date
+                && taskArray[i].project === task.project) {
                 index = i;
             }
         }
+        console.log(taskArray[index]);
         taskContainer.removeChild(e.target.parentNode.parentNode);
-        taskArray.splice(taskArray[index], 1);
+        taskArray.splice(taskArray[index], 1); //on other tab it always deletes first BUG
         storeMyTasks();
+        storeMyProjects();
     });
 }
 
