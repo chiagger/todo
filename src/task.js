@@ -48,7 +48,7 @@ projArray = JSON.parse(projArray || JSON.stringify(defaultProjArray));
 
 
 function storeMyTasks() {
-    
+
     while (localStorage.getItem('user') != null) {
         localStorage.clear();
     }
@@ -188,9 +188,8 @@ function makeTask(task) {
                 index = i;
             }
         }
-        console.log(taskArray[index]);
+        taskArray.splice(index, 1);
         taskContainer.removeChild(e.target.parentNode.parentNode);
-        taskArray.splice(taskArray[index], 1); //on other tab it always deletes first BUG
         storeMyTasks();
         storeMyProjects();
     });
@@ -278,7 +277,7 @@ function displayTodayTab() {
     //add all [filtered] tasks
     const today = new Date();
     taskArray.forEach(task => {
-        if (task.date=== toFormattedString(today))
+        if (task.date === toFormattedString(today))
             makeTask(task);
     });
 }
@@ -341,24 +340,57 @@ function displayProjectTab(e) {
 }
 
 function createProject() {
+    const cont = document.createElement("div");
+    cont.classList.add("cont");
     const proj = document.createElement("a");
     const name = prompt("Project name?");
     proj.textContent = name;
     projArray.push(proj.textContent);
     storeMyProjects();
     proj.classList.add("oneproject");
-    projContainer.appendChild(proj);
+
+    const rm = document.createElement("button");
+    rm.innerHTML = "&#215;";
+    cont.appendChild(proj);
+    cont.appendChild(rm);
+    projContainer.appendChild(cont);
     proj.addEventListener("click", displayProjectTab);
+    rm.addEventListener("click", removeProject);
 }
 
 function makeProject(name) {
+    const cont = document.createElement("div");
+    cont.classList.add("cont");
     const proj = document.createElement("a");
     proj.textContent = name;
-    //projArray.push(proj.textContent);
-    //storeMyProjects();
     proj.classList.add("oneproject");
-    projContainer.appendChild(proj);
+    const rm = document.createElement("button");
+    rm.innerHTML = "&#215;";
+    cont.appendChild(proj);
+    cont.appendChild(rm);
+    projContainer.appendChild(cont);
     proj.addEventListener("click", displayProjectTab);
+    rm.addEventListener("click", removeProject);
+}
+
+function removeProject(e) {
+    let index;
+    for (let i = 0; i < projArray.length; i++) {
+        if (projArray[i] === e.target.parentNode.firstChild.textContent) {
+            index = i;
+        }
+    }
+    projArray.splice(index, 1);
+    projContainer.removeChild(e.target.parentNode);
+
+    //also remove tasks for this project
+    for (let i = 0; i < taskArray.length; i++) {
+        while (taskArray[i].project === e.target.parentNode.firstChild.textContent) {
+            taskArray.splice(i, 1);
+        }
+    }
+    storeMyTasks();
+    storeMyProjects();
 }
 
 function retrieveRecords() { //retrieves items in the localStorage
@@ -371,8 +403,8 @@ function retrieveRecords() { //retrieves items in the localStorage
             makeTask(newTask);
         });
     }
-   storeMyProjects();
-   //localStorage.clear();
+    storeMyProjects();
+    //localStorage.clear();
     const recordsP = JSON.parse(localStorage.getItem('proj'));
     console.log(recordsP);
     if (recordsP != null) {
