@@ -42,19 +42,31 @@ let defaultTaskArray = [];
 let taskArray = localStorage.getItem('user');
 taskArray = JSON.parse(taskArray || JSON.stringify(defaultTaskArray));
 
+let defaultProjArray = [];
+let projArray = localStorage.getItem('proj');
+projArray = JSON.parse(projArray || JSON.stringify(defaultProjArray));
+
+
 function storeMyTasks() {
+    
     while (localStorage.getItem('user') != null) {
         localStorage.clear();
     }
     window.localStorage.setItem('user', JSON.stringify(taskArray));
-    //console.log(localStorage.getItem('user'));
-    console.log(taskArray);
+}
+
+function storeMyProjects() {
+    while (localStorage.getItem('proj') != null) {
+        localStorage.removeItem('proj');
+    }
+    window.localStorage.setItem('proj', JSON.stringify(projArray));
+
 }
 
 //create DOM task - and deal with its remove and edit buttons
 function makeTask(task) {
     storeMyTasks();
-    //create DOM task
+    storeMyProjects();
     const taskCard = document.createElement("div");
     taskCard.classList.add("task");
     const taskLeft = document.createElement("div");
@@ -62,22 +74,22 @@ function makeTask(task) {
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.classList.add("check");
-    if (task.getDone() === true) {
+    if (task.done === true) {
         checkbox.checked = true;
     } else { checkbox.checked = false; }
     const descContainer = document.createElement("div");
     descContainer.classList.add("descContainer");
     const desc = document.createElement("div");
     desc.classList.add("desc");
-    if (task.getDone() === true) {
-        desc.innerHTML = task.getDesc().strike();
+    if (task.done === true) {
+        desc.innerHTML = task.desc.strike();
         desc.style.color = "#818cf8";
     } else {
-        desc.textContent = task.getDesc();
+        desc.textContent = task.desc;
     }
     const projName = document.createElement("div");
     projName.classList.add("projName");
-    projName.textContent = task.getProject();
+    projName.textContent = task.project;
     descContainer.appendChild(desc);
     descContainer.appendChild(projName);
     taskLeft.appendChild(checkbox);
@@ -86,14 +98,14 @@ function makeTask(task) {
     taskRight.classList.add("task-right");
     const date = document.createElement("div");
     date.classList.add("date");
-    date.textContent = task.getDate();
+    date.textContent = task.date;
     const starred = document.createElement("button");
     starred.style.backgroundColor = "#C7D2FE";
     starred.style.outline = "none";
     starred.style.border = "none";
     starred.style.fontSize = "1em";
     starred.style.color = "#403FB9";
-    if (task.getStarred() === true) {
+    if (task.starred === true) {
         starred.innerHTML = "&#9733;";
     } else {
         starred.innerHTML = "&#9734;";
@@ -262,7 +274,7 @@ function displayTodayTab() {
     //add all [filtered] tasks
     const today = new Date();
     taskArray.forEach(task => {
-        if (task.getDate() === toFormattedString(today))
+        if (task.date=== toFormattedString(today))
             makeTask(task);
     });
 }
@@ -292,7 +304,7 @@ function displayWeekTab() {
     title.innerHTML = "This Week";
 
     taskArray.forEach(task => {
-        if (nextSevenDays(task.getDate())) {
+        if (nextSevenDays(task.date)) {
             makeTask(task);
         }
     });
@@ -305,7 +317,7 @@ function displayStarredTab() {
     title.innerHTML = "Starred Tasks";
 
     taskArray.forEach(task => {
-        if (task.getStarred()) {
+        if (task.starred === true) {
             makeTask(task);
         }
     });
@@ -318,7 +330,7 @@ function displayProjectTab(e) {
     title.innerHTML = e.target.textContent;
 
     taskArray.forEach(task => {
-        if (task.getProject() === e.target.textContent) {
+        if (task.project === e.target.textContent) {
             makeTask(task);
         }
     });
@@ -328,6 +340,18 @@ function createProject() {
     const proj = document.createElement("a");
     const name = prompt("Project name?");
     proj.textContent = name;
+    projArray.push(proj.textContent);
+    storeMyProjects();
+    proj.classList.add("oneproject");
+    projContainer.appendChild(proj);
+    proj.addEventListener("click", displayProjectTab);
+}
+
+function makeProject(name) {
+    const proj = document.createElement("a");
+    proj.textContent = name;
+    //projArray.push(proj.textContent);
+    //storeMyProjects();
     proj.classList.add("oneproject");
     projContainer.appendChild(proj);
     proj.addEventListener("click", displayProjectTab);
@@ -341,6 +365,17 @@ function retrieveRecords() { //retrieves items in the localStorage
             let newTask = new task(record.desc, record.date,
                 record.done, record.starred, record.project);
             makeTask(newTask);
+        });
+    }
+   storeMyProjects();
+   //localStorage.clear();
+    const recordsP = JSON.parse(localStorage.getItem('proj'));
+    console.log(recordsP);
+    if (recordsP != null) {
+        recordsP.forEach(record => {
+            //console.log(record);
+            let newProj = record;
+            makeProject(newProj);
         });
     }
 }
