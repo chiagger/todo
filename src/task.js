@@ -38,10 +38,22 @@ const taskContainer = document.querySelector(".taskList");
 const title = document.querySelector("#title");
 const projContainer = document.querySelector(".proj");
 
-let taskArray = [];
+let defaultTaskArray = [];
+let taskArray = localStorage.getItem('user');
+taskArray = JSON.parse(taskArray || JSON.stringify(defaultTaskArray));
+
+function storeMyTasks() {
+    while (localStorage.getItem('user') != null) {
+        localStorage.clear();
+    }
+    window.localStorage.setItem('user', JSON.stringify(taskArray));
+    //console.log(localStorage.getItem('user'));
+    console.log(taskArray);
+}
 
 //create DOM task - and deal with its remove and edit buttons
 function makeTask(task) {
+    storeMyTasks();
     //create DOM task
     const taskCard = document.createElement("div");
     taskCard.classList.add("task");
@@ -101,39 +113,70 @@ function makeTask(task) {
     taskContainer.appendChild(taskCard);
 
 
+
     //deal with starredBtn
     starred.addEventListener("click", function handleStar(e) {
+        let index;
+        for (let i = 0; i < taskArray.length; i++) {
+            if (taskArray[i].desc === task.getDesc()
+                && taskArray[i].date === task.getDate()
+                && taskArray[i].project === task.getProject()) {
+                index = i;
+            }
+        }
         if (task.getStarred() === true) {
             starred.innerHTML = "&#9734;";
             task.setStarred(false);
+            taskArray[index].starred = false;           //modify task array
         } else {
             starred.innerHTML = "&#9733;";
             task.setStarred(true);
+            taskArray[index].starred = true;
         }
+        storeMyTasks();
     });
 
     //deal with doneBtn
     checkbox.addEventListener("click", function handleDone(e) {
+        let index;
+        for (let i = 0; i < taskArray.length; i++) {
+            if (taskArray[i].desc === task.getDesc()
+                && taskArray[i].date === task.getDate()
+                && taskArray[i].project === task.getProject()) {
+                index = i;
+            }
+        }
         if (task.getDone() === true) {
             desc.textContent = task.getDesc();
             desc.style.color = "#4435B6";
             checkbox.checked = false;
             task.setDone(false);
+            taskArray[index].done = false;           //modify task array
+
         } else {
             desc.innerHTML = task.getDesc().strike();
             desc.style.color = "#818cf8";
             checkbox.checked = true;
             task.setDone(true);
+            taskArray[index].done = true;           //modify task array
+
         }
+        storeMyTasks();
     });
 
     //deal with removeBtn
     removeBtn.addEventListener("click", function handleRemove(e) {
-        taskContainer.removeChild(e.target.parentNode.parentNode);
-        let taskIndex = taskArray.indexOf(task);
-        if (taskIndex > -1) {
-            taskArray.splice(taskIndex, 1);
+        let index;
+        for (let i = 0; i < taskArray.length; i++) {
+            if (taskArray[i].desc === task.getDesc()
+                && taskArray[i].date === task.getDate()
+                && taskArray[i].project === task.getProject()) {
+                index = i;
+            }
         }
+        taskContainer.removeChild(e.target.parentNode.parentNode);
+        taskArray.splice(taskArray[index], 1);
+        storeMyTasks();
     });
 }
 
@@ -150,7 +193,6 @@ function promptTask() {
     //form validation!!!
     let found = false;
     const projList = document.querySelectorAll(".oneproject");
-    console.log(projList);
 
     if (proj != "default") {
         projList.forEach(thisproj => {
@@ -171,7 +213,6 @@ function promptTask() {
         taskArray.push(thistask);
         makeTask(thistask);
     }
-    
 
 
     //this resets the form after submission
@@ -292,4 +333,16 @@ function createProject() {
     proj.addEventListener("click", displayProjectTab);
 }
 
-module.exports = { promptTask, displayAllTab, displayTodayTab, displayWeekTab, displayStarredTab, createProject }
+function retrieveRecords() { //retrieves items in the localStorage
+    storeMyTasks();
+    const records = JSON.parse(localStorage.getItem('user'));
+    if (records != null) {
+        records.forEach(record => {
+            let newTask = new task(record.desc, record.date,
+                record.done, record.starred, record.project);
+            makeTask(newTask);
+        });
+    }
+}
+
+module.exports = { promptTask, displayAllTab, displayTodayTab, displayWeekTab, displayStarredTab, createProject, retrieveRecords }

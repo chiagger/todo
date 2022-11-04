@@ -8,17 +8,18 @@ const today = document.querySelector("#today");
 const thisweek = document.querySelector("#thisweek");
 const important = document.querySelector("#important");
 const addProjectBtn = document.querySelector("#addProjectBtn");
-const projects = document.querySelectorAll(".oneproject");
+
+const task = require('./task.js');
+task.retrieveRecords();
+
 
 //sidebar
 const sidebar = require('./sidebar.js');
 openBtn.addEventListener("click", sidebar.openNav);
 closeBtn.addEventListener("click", sidebar.closeNav);
 
-
 //tasks
 const form = require('./form.js');
-const task = require('./task.js');
 newTaskBtn.addEventListener("click", form.openForm);
 submitBtn.addEventListener("click", () => {
     task.promptTask();
