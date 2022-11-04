@@ -195,6 +195,19 @@ input[type='checkbox'] {
     gap: 3rem;
 }
 
+.cont {
+    display:flex;
+    align-items: center;
+    gap: 6rem;
+}
+
+.cont button {
+    background-color: transparent;
+    border: none;
+    color:#e0e7ff;
+    outline:none;
+}
+
 .subheader button {
     padding: 0.5rem;
     border-radius: 10px;
